@@ -10,6 +10,24 @@ build-parameters:
       commands:
         - npx cds build --production
 modules:
+# start of UI Module code
+  - name: mycapapp-ui
+    type: nodejs
+    path: app
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          strictSSL: true
+          forwardAuthToken: true
+          url: '~{srv-url}'
+      - name: mycapapp-auth 
+# end of UI Module code
   - name: mycapapp-srv
     type: nodejs
     path: gen/srv
